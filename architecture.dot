@@ -1,0 +1,83 @@
+digraph G {
+  rankdir=LR;
+  compound=true;
+  newrank=true;
+  
+  JSONC;
+  subgraph cluster_lexer {
+    label="lexer.py";
+    style=dotted;
+    JSONCString [shape=box];
+    lex [shape=diamond];
+    subgraph cluster_tokens {
+      label="TokenList";
+      rank=same;
+      style=rounded;
+      TokenBottom [label="Token..." shape=box];
+      TokenCenter [label="Token..." shape=box];
+    }
+  }
+  subgraph cluster_parser {
+    label="parser.py";
+    style=dotted;
+    parse [shape=diamond];
+    subgraph cluster_cst {
+      label="CST";
+      rank=same;
+      style=rounded;
+      CNodeBottom [label="CNode..." shape=box];
+      CNodeCenter [label="CNode..." shape=box];
+    }
+  }
+  subgraph cluster_abstract {
+    label="abstract.py";
+    style=dotted;
+    abstract [shape=diamond];
+    subgraph cluster_values {
+      label="AST";
+      rank=same;
+      style=rounded;
+      ANodeBottom [label="ANode..." shape=box];
+      ANodeCenter [label="ANode..." shape=box];
+    }
+  }
+  subgraph cluster_rexel {
+    label="rexel.py";
+    style=dotted;
+    subgraph cluster_editor {
+      label="JSONEditor";
+      style=rounded;
+      subgraph cluster_editable {
+        label="Editable AST";
+        rank=same;
+        style=rounded;
+        JSONBottom [label="JSON..." shape=box];
+        JSONCenter [label="JSON..." shape=box];
+      }
+      xel [shape=diamond];
+      edit [label="edit..." shape=diamond];
+      subgraph cluster_fragments {
+        label="FragmentList";
+        rank=same;
+        style=rounded;
+        FragmentBottom [label="Fragment..." shape=box];
+        FragmentCenter [label="Fragment..." shape=box];
+      }
+    }
+  }
+  EditedJSONC [label="Edited JSONC"];
+
+  JSONC -> JSONCString;
+  JSONCString -> lex;
+  lex -> TokenCenter [lhead=cluster_tokens];
+  TokenCenter -> parse [ltail=cluster_tokens];
+  parse -> CNodeCenter [lhead=cluster_cst];
+  CNodeCenter -> abstract [ltail=cluster_cst];
+  abstract -> ANodeCenter [lhead=cluster_values];
+  ANodeCenter -> JSONCenter [ltail=cluster_values lhead=cluster_editor];
+  JSONCenter -> xel [ltail=cluster_editable];
+  JSONBottom -> edit [ltail=cluster_editable dir=back];
+  xel -> FragmentCenter [lhead=cluster_fragments];
+  edit -> FragmentBottom [lhead=cluster_fragments];
+  FragmentCenter -> EditedJSONC [ltail=cluster_fragments];
+}

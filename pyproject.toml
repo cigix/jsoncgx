@@ -1,0 +1,29 @@
+[project]
+name = "jsoncgx"
+version = "1.0"
+requires-python = ">=3.9"
+
+description = "An overpowered JSON-with-comments parser with inplace edition"
+readme = "README.md"
+authors = [{name = "cigix", email="cigix@cigix.me"}]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+  "Programming Language :: Python :: 3",
+  "Topic :: File Formats :: JSON",
+  "Typing :: Typed"
+]
+keywords = ["json", "jsonc", "json with comments", "json editor"]
+
+[project.urls]
+Repository = "https://github.com/cigix/jsoncgx"
+Issues = "https://github.com/cigix/jsoncgx/issues"
+
+[tool.mypy]
+disallow_untyped_defs = true
+disallow_untyped_calls = true
+warn_return_any = true
+
+[[tool.mypy.overrides]]
+module = "jsoncgx.tests"
+disallow_untyped_defs = false
