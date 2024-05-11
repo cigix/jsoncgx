@@ -80,9 +80,10 @@ class ANodeNumber(ANodeLeaf):
     """ANodeNumber: An AST node for a JSON number.
 
     Methods:
-      - float(ANodeNumber): alias for float(str(token))
+      - float(ANodeNumber): Get the value.
+      - int(ANodeNumber): Get the value.
 
-      - value(): alias for float(ANodeNumber)
+      - value(): Get the value.
     """
     def __init__(self, nodenumber: CNodeNumberValue):
         """ANodeNumber(nodenumber)
@@ -95,8 +96,18 @@ class ANodeNumber(ANodeLeaf):
     def __float__(self) -> float:
         return float(str(self))
 
-    def value(self) -> float:
-        return float(self)
+    def __int__(self) -> int:
+        return int(str(self))
+
+    def value(self) -> int | float:
+        """value(): Get the value.
+
+        Return: int or float, the value.
+        """
+        try:
+            return int(self)
+        except ValueError:
+            return float(self)
 
     def tographviz(self) -> str:
         return f'  "{id(self)}" [label="{str(self)}" shape=box];\n'
@@ -117,7 +128,7 @@ class ANodeString(ANodeLeaf):
         super().__init__(nodestring.string.start())
 
     def value(self) -> str:
-        return str(self)
+        return str(self)[1:-1]
 
     def tographviz(self) -> str:
         return f'  "{id(self)}" [label=<{str(self)}> shape=box];\n'

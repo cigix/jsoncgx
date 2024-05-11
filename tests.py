@@ -1,5 +1,4 @@
 import unittest
-from typing import TYPE_CHECKING
 
 from jsoncgx import *
 
@@ -112,19 +111,19 @@ class ArrayInsertTests(unittest.TestCase):
         expected = "/*a*/[/*b*/1/*b*/]/*c*/"
 
         editor = loads(jsonc)
-        editor.root.editinsert(0, JSONNumber.create(1))
+        editor.root.editinsert(0, 1)
         self.assertEqual(editor.dumps(), expected)
     def test_wrong_index(self):
         editor = loads("[1, 2, 3]")
         with self.assertRaises(Exception):
-            editor.root.editinsert(5, JSONNumber.create(5))
+            editor.root.editinsert(5, 5)
     def test_beginning_one_value(self):
         # [2]
         jsonc = "/*a*/[/*b*/2/*c*/]/*d*/"
         expected = "/*a*/[/*b*/1,/*b*/2/*c*/]/*d*/"
 
         editor = loads(jsonc)
-        editor.root.editinsert(0, JSONNumber.create(1))
+        editor.root.editinsert(0, 1)
         self.assertEqual(editor.dumps(), expected)
     def test_ending_one_value(self):
         # [1]
@@ -132,7 +131,7 @@ class ArrayInsertTests(unittest.TestCase):
         expected = "/*a*/[/*b*/1,/*b*/2/*c*/]/*d*/"
 
         editor = loads(jsonc)
-        editor.root.editinsert(1, JSONNumber.create(2))
+        editor.root.editinsert(1, 2)
         self.assertEqual(editor.dumps(), expected)
     def test_beginning(self):
         # [2, 3]
@@ -140,7 +139,7 @@ class ArrayInsertTests(unittest.TestCase):
         expected = "/*a*/[/*b*/1,/*b*/2/*c*/,/*d*/3/*e*/]/*f*/"
 
         editor = loads(jsonc)
-        editor.root.editinsert(0, JSONNumber.create(1))
+        editor.root.editinsert(0, 1)
         self.assertEqual(editor.dumps(), expected)
     def test_ending(self):
         # [1, 2]
@@ -148,7 +147,7 @@ class ArrayInsertTests(unittest.TestCase):
         expected = "/*a*/[/*b*/1/*c*/,/*d*/2,/*d*/3/*e*/]/*f*/"
 
         editor = loads(jsonc)
-        editor.root.editinsert(-1, JSONNumber.create(3))
+        editor.root.editinsert(-1, 3)
         self.assertEqual(editor.dumps(), expected)
     def test_middle(self):
         # [1, 3]
@@ -156,7 +155,7 @@ class ArrayInsertTests(unittest.TestCase):
         expected = "/*a*/[/*b*/1/*c*/,/*d*/2/*c*/,/*d*/3/*e*/]/*f*/"
 
         editor = loads(jsonc)
-        editor.root.editinsert(1, JSONNumber.create(2))
+        editor.root.editinsert(1, 2)
         self.assertEqual(editor.dumps(), expected)
     def test_insert_array(self):
         # []
@@ -182,19 +181,19 @@ class ObjectInsertTests(unittest.TestCase):
         expected = '/*a*/{/*b*/"1":1/*b*/}/*c*/'
 
         editor = loads(jsonc)
-        editor.root.editinsert(0, "1", JSONNumber.create(1))
+        editor.root.editinsert(0, "1", 1)
         self.assertEqual(editor.dumps(), expected)
     def test_wrong_index(self):
         editor = loads('{"1": 1, "2": 2, "3": 3}')
         with self.assertRaises(Exception):
-            editor.root.editinsert(5, "5", JSONNumber.create(5))
+            editor.root.editinsert(5, "5", 5)
     def test_beginning_one_value(self):
         # {"2": 2}
         jsonc = '/*a*/{/*b*/"2"/*c*/:/*d*/2/*e*/}/*f*/'
         expected = '/*a*/{/*b*/"1"/*c*/:/*d*/1,/*b*/"2"/*c*/:/*d*/2/*e*/}/*f*/'
 
         editor = loads(jsonc)
-        editor.root.editinsert(0, "1", JSONNumber.create(1))
+        editor.root.editinsert(0, "1", 1)
         self.assertEqual(editor.dumps(), expected)
     def test_ending_one_value(self):
         # {"1": 1}
@@ -202,7 +201,7 @@ class ObjectInsertTests(unittest.TestCase):
         expected = '/*a*/{/*b*/"1"/*c*/:/*d*/1,/*b*/"2"/*c*/:/*d*/2/*e*/}/*f*/'
 
         editor = loads(jsonc)
-        editor.root.editinsert(1, "2", JSONNumber.create(2))
+        editor.root.editinsert(1, "2", 2)
         self.assertEqual(editor.dumps(), expected)
     def test_beginning(self):
         # {"2": 2, "3": 3}
@@ -210,7 +209,7 @@ class ObjectInsertTests(unittest.TestCase):
         expected = '/*a*/{/*b*/"1"/*c*/:/*d*/1,/*b*/"2"/*c*/:/*d*/2/*e*/,/*f*/"3"/*g*/:/*h*/3/*i*/}/*j*/'
 
         editor = loads(jsonc)
-        editor.root.editinsert(0, "1", JSONNumber.create(1))
+        editor.root.editinsert(0, "1", 1)
         self.assertEqual(editor.dumps(), expected)
     def test_ending(self):
         # {"1": 1, "2": 2}
@@ -218,7 +217,7 @@ class ObjectInsertTests(unittest.TestCase):
         expected = '/*a*/{/*b*/"1"/*c*/:/*d*/1/*e*/,/*f*/"2"/*g*/:/*h*/2,/*f*/"3"/*g*/:/*h*/3/*i*/}/*j*/'
 
         editor = loads(jsonc)
-        editor.root.editinsert(-1, "3", JSONNumber.create(3))
+        editor.root.editinsert(-1, "3", 3)
         self.assertEqual(editor.dumps(), expected)
     def test_middle(self):
         # {"1": 1, "3": 3}
@@ -226,7 +225,7 @@ class ObjectInsertTests(unittest.TestCase):
         expected = '/*a*/{/*b*/"1"/*c*/:/*d*/1/*e*/,/*f*/"2"/*c*/:/*d*/2/*e*/,/*f*/"3"/*h*/:/*i*/3/*j*/}/*k*/'
 
         editor = loads(jsonc)
-        editor.root.editinsert(1, "2", JSONNumber.create(2))
+        editor.root.editinsert(1, "2", 2)
         self.assertEqual(editor.dumps(), expected)
     def test_insert_array(self):
         # {}
@@ -252,7 +251,7 @@ class ReplaceTests(unittest.TestCase):
         expected = "[1, 2, 3]"
 
         editor = loads(jsonc)
-        editor.root.editreplace(1, JSONNumber.create(2))
+        editor.root.editreplace(1, 2)
         self.assertEqual(editor.dumps(), expected)
     def test_array_array(self):
         # [1, 42, 3]
@@ -284,7 +283,7 @@ class ReplaceTests(unittest.TestCase):
         expected = '{"1": 1, "2": 2, "3": 3}'
 
         editor = loads(jsonc)
-        editor.root.editreplacevalue(1, JSONNumber.create(2))
+        editor.root.editreplacevalue(1, 2)
         self.assertEqual(editor.dumps(), expected)
     def test_object_array(self):
         # {"1": 1, "2": 2, "3": 3}

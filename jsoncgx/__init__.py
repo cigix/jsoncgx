@@ -9,7 +9,7 @@ Re-exported classes:
   - lexer.JSONCString: A string containing JSONC data
   - lexer.LexCeption: An exception type for lexing issues
   - parser.ParseXception: An exception type for parsing issues
-  - rexel.JSONNumber, JSONString, JSONBool, JSONNull: JSON values
+  - rexel.JSONBuiltin: JSON values for numbers, strings, booleans, and null
   - rexel.JSONArray, JSONObject, JSONEditor: Editable JSON containers
 
 Re-exported functions:
@@ -25,15 +25,13 @@ try:
     from .lexer import JSONCString, lex, LexCeption
     from .parser import parse, ParseXception
     from .abstract import abstract
-    from .rexel import (JSONNumber, JSONString, JSONBool, JSONNull, JSONArray,
-                        JSONObject, JSONEditor)
+    from .rexel import JSONBuiltin, JSONArray, JSONObject, JSONEditor
 except ImportError:
     if not TYPE_CHECKING:
         from lexer import JSONCString, lex, LexCeption
         from parser import parse, ParseXception
         from abstract import abstract
-        from rexel import (JSONNumber, JSONString, JSONBool, JSONNull,
-                           JSONArray, JSONObject, JSONEditor)
+        from rexel import JSONBuiltin, JSONArray, JSONObject, JSONEditor
 
 def loads(s: str | bytes, name: Optional[str] =None,
           allow_comments: Optional[bool] =True) -> JSONEditor:

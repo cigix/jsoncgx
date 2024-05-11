@@ -1,6 +1,6 @@
 [project]
 name = "jsoncgx"
-version = "1.0"
+version = "1.1"
 requires-python = ">=3.9"
 
 description = "An overpowered JSON-with-comments parser with inplace edition"
@@ -25,5 +25,5 @@ disallow_untyped_calls = true
 warn_return_any = true
 
 [[tool.mypy.overrides]]
-module = "jsoncgx.tests"
+module = "tests"
 disallow_untyped_defs = false

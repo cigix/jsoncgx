@@ -55,7 +55,7 @@ pip install --user jsoncgx
 
 >>> import jsoncgx
 >>> editor = jsoncgx.loads('{ "answer": 42 }')
->>> editor.root["answer"][0].value()
+>>> editor.root["answer"][0]
 42
 ```
 
@@ -75,8 +75,7 @@ pip install --user jsoncgx
 <td>
 
 ```python
->>> editor.root.editreplacevalue(0,
-...     jsoncgx.JSONString.create("spam"))
+>>> editor.root.editreplacevalue(0, "spam")
 >>> editor.dumps()
 '{ "answer": "spam" }'
 ```
@@ -123,9 +122,9 @@ Or use `jsoncgx.load()` and `jsoncgx.JSONEditor.dump()` with a file handle, like
 ```python
 >>> editor = jsoncgx.loads(
 ...     '{ "answer": 42, "answer": "spam" }')
->>> editor.root["answer"][0].value()
+>>> editor.root["answer"][0]
 42
->>> editor.root["answer"][1].value()
+>>> editor.root["answer"][1]
 'spam'
 ```
 
@@ -149,8 +148,7 @@ json.decoder.JSONDecodeError: ...
 ```python
 >>> editor = jsoncgx.loads(
 ...     '{ "answer": /* eggs and */ 42 }')
->>> editor.root.editreplacevalue(0,
-...     jsoncgx.JSONString.create("spam"))
+>>> editor.root.editreplacevalue(0, "spam")
 >>> editor.dumps()
 '{ "answer": /* eggs and */ "spam" }'
 ```
@@ -180,3 +178,12 @@ Those elements are considered like whitespace.
 ## Architecture
 
 ![jsoncgx architecture](architecture.png)
+
+## Changelog
+
+### V1.1:
+
+* `JSONNumber`, `JSONString`, `JSONBool`, and `JSONNull` have been replaced with
+  `JSONBuiltin`, for easier integration.
+* `edit*()` methods that accepted `JSONValue` now also accept `int`, `float`,
+  `str`, `bool`, and `None`. They are automatically turned into `JSONBuiltin`.

@@ -15,7 +15,7 @@ all: architecture.png
 
 tests:
 	python3 -m unittest
-	python3 -m mypy jsoncgx
+	python3 -m mypy .
 
 upload: tests
 	$(RM) -r dist
